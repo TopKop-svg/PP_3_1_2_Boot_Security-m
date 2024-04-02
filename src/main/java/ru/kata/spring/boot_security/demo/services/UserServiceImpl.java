@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
 
     @Autowired
@@ -53,12 +53,18 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updateUserById(int id, User updateUser) {
         updateUser.setId(id);
-        updateUser.setPassword(passwordEncoder.encode(updateUser.getPassword()));
+        if (passwordEncoder.encode(updateUser.getPassword()).hashCode() != userRepository.findUserById(id).getPassword().hashCode()) {
+            updateUser.setPassword(passwordEncoder.encode(updateUser.getPassword()));
+            System.out.println("Password newUser = " + passwordEncoder.encode(updateUser.getPassword()).hashCode());
+            System.out.println("Password oldUser = " + userRepository.findUserById(id).getPassword().hashCode());
+        } else {
+            updateUser.setPassword(userRepository.findUserById(id).getPassword());
+        }
         userRepository.save(updateUser);
     }
 
     @Transactional
     public void deleteUserById(int id) {
-        userRepository.deleteById(id);
+        userRepository.deleteUserById(id);
     }
 }

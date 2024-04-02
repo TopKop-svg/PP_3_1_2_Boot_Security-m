@@ -55,14 +55,14 @@ public class AdminController {
         return "id";
     }
 
-    /*@GetMapping("/{id}/edit")
+    @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
         model.addAttribute("user", userService.showUserById(id));
         List<Role> roles = (List<Role>) roleRepository.findAll();
         model.addAttribute("allRoles", roles);
         return "edit";
-    }*/
-    @GetMapping("/{id}/edit")
+    }
+    /*@GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
         User user = userService.getAllUsers().get(id);
         String decodedPassword = passwordEncoder.matches(user.getPassword(), user.getPassword()) ? user.getPassword() : "Error";
@@ -71,15 +71,15 @@ public class AdminController {
         List<Role> roles = (List<Role>) roleRepository.findAll();
         model.addAttribute("allRoles", roles);
         return "edit";
-    }
+    }*/
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("person") User user, @PathVariable("id") int id) {
+    public String update(@ModelAttribute("user") User user, @PathVariable("id") int id) {
         userService.updateUserById(id, user);
         return "redirect:/admin";
     }
 
-    @DeleteMapping("/{id}")
+    @PostMapping("/{id}/delete")
     public String delete(@PathVariable("id") int id) {
         userService.deleteUserById(id);
         return "redirect:/admin";
