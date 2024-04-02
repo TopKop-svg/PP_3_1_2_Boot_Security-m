@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Service
-
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserService userService;
 
@@ -29,7 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userService.findByUsername(username);
         if (user == null) {
-            throw new UsernameNotFoundException("Нет юзера");
+            throw new UsernameNotFoundException("User not found");
         }
 
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthority(user.getRoles()));

@@ -50,13 +50,17 @@ public class UserServiceImpl implements UserService {
     }
 
 
+  /*@Transactional
+    public void updateUserById(int id, User updateUser) {
+        updateUser.setId(id);
+        userRepository.save(updateUser);
+    }*/
+
     @Transactional
     public void updateUserById(int id, User updateUser) {
         updateUser.setId(id);
         if (passwordEncoder.encode(updateUser.getPassword()).hashCode() != userRepository.findUserById(id).getPassword().hashCode()) {
             updateUser.setPassword(passwordEncoder.encode(updateUser.getPassword()));
-            System.out.println("Password newUser = " + passwordEncoder.encode(updateUser.getPassword()).hashCode());
-            System.out.println("Password oldUser = " + userRepository.findUserById(id).getPassword().hashCode());
         } else {
             updateUser.setPassword(userRepository.findUserById(id).getPassword());
         }

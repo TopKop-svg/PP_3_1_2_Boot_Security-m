@@ -62,18 +62,8 @@ public class AdminController {
         model.addAttribute("allRoles", roles);
         return "edit";
     }
-    /*@GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") int id) {
-        User user = userService.getAllUsers().get(id);
-        String decodedPassword = passwordEncoder.matches(user.getPassword(), user.getPassword()) ? user.getPassword() : "Error";
-        User decodedUser = new User(user.getUsername(), decodedPassword, user.getName(), user.getAge(), user.getRoles());
-        model.addAttribute("user", decodedUser);
-        List<Role> roles = (List<Role>) roleRepository.findAll();
-        model.addAttribute("allRoles", roles);
-        return "edit";
-    }*/
 
-    @PatchMapping("/{id}")
+    @PostMapping("/{id}/update")
     public String update(@ModelAttribute("user") User user, @PathVariable("id") int id) {
         userService.updateUserById(id, user);
         return "redirect:/admin";
