@@ -6,6 +6,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +25,13 @@ public class User implements UserDetails {
     private String password;
     @Getter
     private String name;
+
+    @Getter
+    @Column(name = "email", nullable = false, length = 20)
+    @NotBlank(message = "Email is required")
+    @Email(message = "Email must be a valid email address")
+    private String email;
+
     @Getter
     private int age;
     @Getter
@@ -49,6 +58,7 @@ public class User implements UserDetails {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", age=" + age +

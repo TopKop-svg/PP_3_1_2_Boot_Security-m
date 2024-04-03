@@ -10,8 +10,9 @@
   <tr>
     <th scope="col">ID</th>
     <th scope="col">Username</th>
-    <th scope="col">Password</th>
+  <!--  <th scope="col">Password</th>-->
     <th scope="col">Name</th>
+    <th scope="col">Email</th>
     <th scope="col">Age</th>
     <th scope="col">Role</th>
     <th scope="col">Update</th>
@@ -22,8 +23,9 @@
   <tr>
     <td th:text="${userId.getId()}"/>
     <td th:text="${userId.getUsername()}"/>
-    <td th:text="${userId.getPassword()}"/>
+    <!--<td th:text="${userId.getPassword()}"/>-->
     <td th:text="${userId.getName()}"/>
+    <td th:text="${userId.getEmail()}"/>
     <td th:text="${userId.getAge()}"/>
     <td th:text="${userId.getRoles()}"/>
     <td><a th:href="@{/admin/{id}/edit (id=${userId.getId()})}">Update</a></td>

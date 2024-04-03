@@ -13,8 +13,9 @@
     <tr>
         <th scope="col">ID</th>
         <th scope="col">Username</th>
-        <th scope="col">Password</th>
+        <!--<th scope="col">Password</th>-->
         <th scope="col">Name</th>
+        <th scope="col">Email</th>
         <th scope="col">Age</th>
         <th scope="col">Role</th>
     </tr>
@@ -23,8 +24,9 @@
     <tr th:each="user : ${users}">
         <td th:text="${user.getId()}"/>
         <td th:text="${user.getUsername()}"/>
-        <td th:text="${user.getPassword()}"/>
+        <!--<td th:text="${user.getPassword()}"/>-->
         <td th:text="${user.getName()}"/>
+        <td th:text="${user.getEmail()}"/>
         <td th:text="${user.getAge()}"/>
         <td th:text="${user.getRoles()}"/>
 
