@@ -23,13 +23,10 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-    private final RoleRepository roleRepository;
     private final UserService userService;
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
-    public AdminController(RoleRepository roleRepository, UserService userService) {
-        this.roleRepository = roleRepository;
+    public AdminController(UserService userService) {
         this.userService = userService;
     }
 
@@ -42,8 +39,7 @@ public class AdminController {
     @GetMapping("/new")
     public String newUser(Model model) {
         model.addAttribute("user", new User());
-        List<Role> roles = (List<Role>) roleRepository.findAll();
-        model.addAttribute("allRoles", roles);
+        model.addAttribute("allRoles", userService.getAllRoles());
         return "new";
     }
 
@@ -62,8 +58,7 @@ public class AdminController {
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
         model.addAttribute("user", userService.showUserById(id));
-        List<Role> roles = (List<Role>) roleRepository.findAll();
-        model.addAttribute("allRoles", roles);
+        model.addAttribute("allRoles", userService.getAllRoles());
         return "edit";
     }
 
