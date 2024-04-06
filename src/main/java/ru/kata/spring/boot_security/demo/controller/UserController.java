@@ -27,6 +27,7 @@ public class UserController {
         User user = userService.findByUsername(principal.getName());
         model.addAttribute("id", user.getId());
         model.addAttribute("username", user.getUsername());
+        model.addAttribute("email", user.getEmail());
         model.addAttribute("password", user.getPassword());
         model.addAttribute("name", user.getName());
         model.addAttribute("age", user.getAge());

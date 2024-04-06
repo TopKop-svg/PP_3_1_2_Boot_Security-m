@@ -27,6 +27,7 @@ public class User implements UserDetails {
     private String name;
 
     @Getter
+    @Setter
     @Column(name = "email", nullable = false, length = 20)
     @NotBlank(message = "Email is required")
     @Email(message = "Email must be a valid email address")
