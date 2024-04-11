@@ -31,8 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
        User user = Optional.ofNullable(userService.findByUsername(username))
                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        return new User(user.getUsername(),
-                user.getPassword(), user.getName(), user.getAge(), user.getEmail(), user.getRoles());
+        return user;
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthority(Collection<Role> roles) {
