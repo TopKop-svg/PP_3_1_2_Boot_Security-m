@@ -18,4 +18,6 @@ public interface UserService {
     void updateUserById(int id, User updateUser);
 
     void deleteUserById(int id);
+
+    Role getRoleByName(String username);
 }

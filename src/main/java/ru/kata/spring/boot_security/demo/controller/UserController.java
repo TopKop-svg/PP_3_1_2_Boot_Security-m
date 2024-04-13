@@ -2,6 +2,8 @@ package ru.kata.spring.boot_security.demo.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +14,7 @@ import ru.kata.spring.boot_security.demo.services.UserService;
 import java.security.Principal;
 
 @Controller
-@RequestMapping("/user")
+//@RequestMapping("/user")
 public class UserController {
 
     private final UserService userService;
@@ -22,7 +24,14 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping("/user")
+    public String helloPage(Model model, @AuthenticationPrincipal UserDetails currentUser) {
+        User user = userService.findByUsername(currentUser.getUsername());
+        model.addAttribute("currentUser", user);
+        return "user_panel";
+    }
+
+    /*@GetMapping
     public String showUser(Principal principal, Model model) {
         User user = userService.findByUsername(principal.getName());
         model.addAttribute("id", user.getId());
@@ -33,8 +42,8 @@ public class UserController {
         model.addAttribute("age", user.getAge());
         model.addAttribute("roles", user.getRoles());
 
-        return "showuser";
-    }
+        return "user/user_panel";
+    }*/
 
 
 }

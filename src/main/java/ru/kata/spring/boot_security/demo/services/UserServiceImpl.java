@@ -36,6 +36,8 @@ public class UserServiceImpl implements UserService {
     }
 
 
+
+
     @Transactional
     public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -77,5 +79,10 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deleteUserById(int id) {
         userRepository.deleteUserById(id);
+    }
+
+    @Transactional
+    public Role getRoleByName(String username){
+        return roleRepository.getRoleByName(username);
     }
 }
