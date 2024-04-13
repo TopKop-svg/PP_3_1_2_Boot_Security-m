@@ -16,7 +16,7 @@
     <!-- Navbar(Шапка) -->
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
         <p class="nav_caption">
-            <span class="nav_text_bold" th:text="${currentUser.getUsername()}"/>
+            <span class="nav_text_bold" th:text="${currentUser.getEmail()}"/>
             with roles:
             <span th:text="${currentUser.getRoles()}"/>
         </p>
@@ -57,6 +57,7 @@
                                 <tr>
                                     <th scope="col">ID</th>
                                     <th scope="col">First Name</th>
+                                    <th scope="col">Last Name</th>
                                     <th scope="col">Age</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Role</th>
@@ -66,6 +67,7 @@
                                     <tr>
                                         <td th:text="${currentUser.getId()}"/>
                                         <td th:text="${currentUser.getUsername()}"/>
+                                        <td th:text="${currentUser.getLastname()}"/>
                                         <td th:text="${currentUser.getAge()}"/>
                                         <td th:text="${currentUser.getEmail()}"/>
                                         <td th:text="${currentUser.getRoles()}"/>

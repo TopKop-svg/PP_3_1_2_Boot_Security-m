@@ -24,7 +24,7 @@ public class User implements UserDetails {
     private String username;
     private String password;
     @Getter
-    private String name;
+    private String lastname;
 
     @Getter
     @Setter
@@ -46,10 +46,10 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String username, String password, String name, int age, String email, Set<Role> roles) {
+    public User(String username, String password, String lastname, int age, String email, Set<Role> roles) {
         this.username = username;
         this.password = password;
-        this.name = name;
+        this.lastname = lastname;
         this.age = age;
         this.email = email;
         this.roles = roles;
@@ -62,7 +62,7 @@ public class User implements UserDetails {
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
+                ", name='" + lastname + '\'' +
                 ", age=" + age +
                 '}';
     }

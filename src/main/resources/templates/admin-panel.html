@@ -16,9 +16,9 @@
     <!-- Navbar(Шапка) -->
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
         <p class="nav_caption">
-            <span class="nav_text_bold" th:text="${currentUser.getLogin()}"/>
+            <span class="nav_text_bold" th:text="${currentUser.getEmail()}"/>
             with roles:
-            <span th:text="${currentUser.getRolesToOneLineString()}"/>
+            <span th:text="${currentUser.getRoles()}"/>
         </p>
 
         <ul class="navbar-nav px-3">
@@ -85,10 +85,10 @@
                                                 <tr>
                                                     <td th:text="${user.getId()}"/>
                                                     <td th:text="${user.getUsername()}"/>
-                                                    <td th:text="${user.getLastName()}"/>
+                                                    <td th:text="${user.getLastname()}"/>
                                                     <td th:text="${user.getAge()}"/>
-                                                    <td th:text="${user.getLogin()}"/>
-                                                    <td th:text="${user.getRolesToOneLineString()()}"/>
+                                                    <td th:text="${user.getEmail()}"/>
+                                                    <td th:text="${user.getRoles()}"/>
                                                     <!--Кнопка редактирования-->
                                                     <td>
                                                         <button
@@ -122,14 +122,14 @@
                                                                                 <label for="firstNameEditInput"
                                                                                        class="form-label">First name</label>
                                                                                 <input type="text" id="firstNameEditInput" name="firstName"
-                                                                                       class="form-control" th:value="${user.getFirstName()}"
+                                                                                       class="form-control" th:value="${user.getUsername()}"
                                                                                        required>
                                                                             </div>
                                                                             <div>
                                                                                 <label for="lastNameEditInput"
                                                                                        class="form-label">Last name</label>
                                                                                 <input type="text" id="lastNameEditInput" name="lastName"
-                                                                                       class="form-control" th:value="${user.getLastName()}"
+                                                                                       class="form-control" th:value="${user.getLastname()()}"
                                                                                        required>
                                                                             </div>
                                                                             <div>
@@ -140,16 +140,16 @@
                                                                                        required>
                                                                             </div>
                                                                             <div>
-                                                                                <label for="loginEditInput"
+                                                                                <label for="emailEditInput"
                                                                                        class="form-label">Login</label>
-                                                                                <input type="text" id="loginEditInput" name="login"
-                                                                                       class="form-control" th:value="${user.getLogin()}"
+                                                                                <input type="text" id="emailEditInput" name="email"
+                                                                                       class="form-control" th:value="${user.getEmail()()}"
                                                                                        required>
                                                                             </div>
                                                                             <div>
                                                                                 <label for="passwordEditInput"
                                                                                        class="form-label">Password</label>
-                                                                                <input type="text" id="passwordEditInput" name="passw"
+                                                                                <input type="text" id="passwordEditInput" name="password"
                                                                                        class="form-control" th:value="${''}"
                                                                                        >
                                                                             </div>
@@ -181,14 +181,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
-
-
-
-
-
-
-
 
                                                     </td>
                                                     <!--Конец кнопки редактирования-->
@@ -226,14 +218,14 @@
                                                                                 <label for="firstNameInput"
                                                                                        class="form-label">First name</label>
                                                                                 <input type="text" id="firstNameInput" name="id"
-                                                                                       class="form-control" th:value="${user.getFirstName()}"
+                                                                                       class="form-control" th:value="${user.getUsername()}"
                                                                                        disabled>
                                                                             </div>
                                                                             <div>
                                                                                 <label for="lastNameNameInput"
                                                                                        class="form-label">Last name</label>
                                                                                 <input type="text" id="lastNameNameInput" name="id"
-                                                                                       class="form-control" th:value="${user.getLastName()}"
+                                                                                       class="form-control" th:value="${user.getLastname()}"
                                                                                        disabled>
                                                                             </div>
                                                                             <div>
@@ -241,13 +233,6 @@
                                                                                        class="form-label">Age</label>
                                                                                 <input type="text" id="ageInput" name="id"
                                                                                        class="form-control" th:value="${user.getAge()}"
-                                                                                       disabled>
-                                                                            </div>
-                                                                            <div>
-                                                                                <label for="loginInput"
-                                                                                       class="form-label">Login</label>
-                                                                                <input type="text" id="loginInput" name="id"
-                                                                                       class="form-control" th:value="${user.getLogin()}"
                                                                                        disabled>
                                                                             </div>
                                                                             <div class="mb-3">
@@ -297,11 +282,11 @@
                                 <form th:method="post" th:action="@{/admin/save_new_user}" th:object="${newUser}">
                                     <div>
                                         <label for="firstName" class="form-label">First name</label>
-                                        <input type="text" th:field="${newUser.firstName}" id="firstName" class="form-control" placeholder="First name" required>
+                                        <input type="text" th:field="${newUser.username}" id="firstName" class="form-control" placeholder="First name" required>
                                     </div>
                                     <div>
                                         <label for="lastName" class="form-label">Last name</label>
-                                        <input type="text" th:field="${newUser.lastName}" id="lastName" class="form-control" placeholder="Last name" required>
+                                        <input type="text" th:field="${newUser.lastname}" id="lastName" class="form-control" placeholder="Last name" required>
                                     </div>
                                     <div>
                                         <label for="age" class="form-label">Age</label>
@@ -310,11 +295,11 @@
 
                                     <div>
                                         <label for="login" class="form-label">Login</label>
-                                        <input type="text" th:field="${newUser.login}" id="login" class="form-control" placeholder="Login" required>
+                                        <input type="text" th:field="${newUser.username}" id="login" class="form-control" placeholder="Login" required>
                                     </div>
                                     <div>
                                         <label for="pass" class="form-label">Password</label>
-                                        <input type="password" th:field="${newUser.passw}" id="pass" class="form-control" placeholder="Password" required>
+                                        <input type="password" th:field="${newUser.password}" id="pass" class="form-control" placeholder="Password" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="roles" class="form-label">Role</label>
@@ -356,11 +341,11 @@
                                 <tbody>
                                     <tr>
                                         <td th:text="${currentUser.getId()}"/>
-                                        <td th:text="${currentUser.getFirstName()}"/>
-                                        <td th:text="${currentUser.getLastName()}"/>
+                                        <td th:text="${currentUser.getUsername()}"/>
+                                        <td th:text="${currentUser.getLastname()}"/>
                                         <td th:text="${currentUser.getAge()}"/>
-                                        <td th:text="${currentUser.getLogin()}"/>
-                                        <td th:text="${currentUser.getRolesToOneLineString()}"/>
+                                        <td th:text="${currentUser.getEmail()}"/>
+                                        <td th:text="${currentUser.getRoles()}"/>
                                     </tr>
                                 </tbody>
 

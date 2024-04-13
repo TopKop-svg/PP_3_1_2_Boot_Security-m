@@ -50,7 +50,7 @@ public class DatabaseInitializer implements ApplicationListener<ContextRefreshed
         admin.setRoles(adminRoles);
         admin.setEmail("admin@mail.ru");
         admin.setAge(32);
-        admin.setName("Ivan");
+        admin.setLastname("Amdinov");
 
         User user = new User();
         user.setUsername("user");
@@ -58,7 +58,7 @@ public class DatabaseInitializer implements ApplicationListener<ContextRefreshed
         user.setRoles(userRoles);
         user.setEmail("user@mail.ru");
         user.setAge(32);
-        user.setName("Kirill");
+        user.setLastname("Userov");
 
         userRepository.save(admin);
         userRepository.save(user);
