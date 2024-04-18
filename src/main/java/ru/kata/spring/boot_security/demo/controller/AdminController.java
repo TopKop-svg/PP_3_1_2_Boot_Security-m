@@ -1,5 +1,7 @@
 package ru.kata.spring.boot_security.demo.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 
 
 @Controller
@@ -59,10 +62,10 @@ public class AdminController {
         return "admin-panel";
     }
 
-    @PostMapping("/admin/save_new_user")
+    @PostMapping("/admin/save")
     public String createNewUser(@ModelAttribute("newUser") User newUser,
-                                @RequestParam(value = "selectedRolesNewUser", required = false) String[] selectedRolesNewUser
-    ){
+                                @RequestParam(value = "selectedRolesNewUser", required = false) String[] selectedRolesNewUser){
+        Logger logger = LoggerFactory.getLogger(AdminController.class);
         if (selectedRolesNewUser != null) {
             Set<Role> roles = new HashSet<>();
             for (String elemArrSelectedRoles : selectedRolesNewUser) {
@@ -70,11 +73,14 @@ public class AdminController {
             }
             newUser.setRoles(roles);
         }
+        logger.info("Saving new user: {}", newUser);
+
+       // System.out.println("usernameMy: " + newUser.getUsername());
         userService.saveUser(newUser);
         return "redirect:/admin";
     }
-    @PostMapping("/update_exists_user")
-    public String updateExistingUser(
+    @PostMapping("/admin/update")
+    public String update(
             @ModelAttribute("user") User user,
             @RequestParam(value = "selectedRoles", required = false) String[] selectedRoles
     ){

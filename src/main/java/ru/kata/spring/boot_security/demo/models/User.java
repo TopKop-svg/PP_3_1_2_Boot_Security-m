@@ -18,23 +18,33 @@ import java.util.Set;
 public class User implements UserDetails {
 
     @Getter
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String username;
-    private String password;
+
+    @Setter
     @Getter
+    @Column(name = "username", nullable = true, length = 25)
+    private String username;
+    @Setter
+    private String password;
+    @Setter
+    @Getter
+    @Column(name = "lastname", nullable = true, length = 20)
     private String lastname;
 
     @Getter
     @Setter
-    @Column(name = "email", nullable = false, length = 20)
+    @Column(name = "email", nullable = false, length = 30)
     @NotBlank(message = "Email is required")
     @Email(message = "Email must be a valid email address")
     private String email;
 
     @Getter
+    @Setter
     private int age;
+
     @Getter
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
@@ -77,10 +87,6 @@ public class User implements UserDetails {
         return password;
     }
 
-    @Override
-    public String getUsername() {
-        return username;
-    }
 
     @Override
     public boolean isAccountNonExpired() {
