@@ -11,6 +11,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
+import ru.kata.spring.boot_security.demo.services.RoleService;
+import ru.kata.spring.boot_security.demo.services.RoleServiceImpl;
 import ru.kata.spring.boot_security.demo.services.UserService;
 
 import java.util.HashSet;
@@ -22,10 +24,13 @@ import java.util.Set;
 @Controller
 public class AdminController {
     private final UserService userService;
+    private final RoleService roleService;
 
     @Autowired
-    public AdminController(UserService userService) {
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
+
     }
 
     @GetMapping("/")
@@ -48,11 +53,10 @@ public class AdminController {
     public String index(ModelMap model, @AuthenticationPrincipal UserDetails authenticatedUser) {
         List<User> list = userService.getAllUsers();
         User currentUser = userService.findByUsername(authenticatedUser.getUsername());
-        System.out.println("текущий пользователь: "+currentUser);
         model.addAttribute("listUsers", list);
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("newUser", new User());
-        model.addAttribute("listRoles", userService.getAllRoles());
+        model.addAttribute("listRoles", roleService.getAllRoles());
         return "admin-panel";
     }
 
@@ -63,7 +67,7 @@ public class AdminController {
         if (selectedRolesNewUser != null) {
             Set<Role> roles = new HashSet<>();
             for (String elemArrSelectedRoles : selectedRolesNewUser) {
-                roles.add(userService.getRoleByName(elemArrSelectedRoles));
+                roles.add(roleService.getRoleByName(elemArrSelectedRoles));
             }
             newUser.setRoles(roles);
         }
@@ -80,7 +84,7 @@ public class AdminController {
         if (selectedRoles != null) {
             Set<Role> roles = new HashSet<>();
             for (String elemArrSelectedRoles : selectedRoles) {
-                roles.add(userService.getRoleByName(elemArrSelectedRoles));
+                roles.add(roleService.getRoleByName(elemArrSelectedRoles));
             }
             user.setRoles(roles);
         }

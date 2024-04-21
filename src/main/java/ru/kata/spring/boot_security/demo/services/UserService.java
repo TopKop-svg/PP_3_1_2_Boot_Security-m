@@ -11,7 +11,7 @@ public interface UserService {
     void saveUser(User user);
 
     List<User> getAllUsers();
-    List<Role> getAllRoles();
+    //List<Role> getAllRoles();
 
     User showUserById(int id);
 
@@ -19,5 +19,5 @@ public interface UserService {
 
     void deleteUserById(int id);
 
-    Role getRoleByName(String username);
+    //Role getRoleByName(String username);
 }
