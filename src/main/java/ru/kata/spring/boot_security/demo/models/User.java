@@ -8,18 +8,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Setter
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
 
+    @Id
     @Getter
     @Setter
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
@@ -46,12 +44,12 @@ public class User implements UserDetails {
     private int age;
 
     @Getter
+    @Setter
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles = new HashSet<>();
-
 
     public User() {
     }
@@ -76,6 +74,7 @@ public class User implements UserDetails {
                 ", age=" + age +
                 '}';
     }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

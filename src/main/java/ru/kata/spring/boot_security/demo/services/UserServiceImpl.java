@@ -18,8 +18,6 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
@@ -48,9 +46,6 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
-    public List<Role> getAllRoles() {
-        return roleRepository.findAll();
-    }
 
 
     public User showUserById(int id) {
@@ -59,15 +54,10 @@ public class UserServiceImpl implements UserService {
     }
 
 
-  /*@Transactional
-    public void updateUserById(int id, User updateUser) {
-        updateUser.setId(id);
-        userRepository.save(updateUser);
-    }*/
-
     @Transactional
     public void updateUserById(int id, User updateUser) {
         updateUser.setId(id);
+        updateUser.setRoles(updateUser.getRoles());
         if (passwordEncoder.encode(updateUser.getPassword()).hashCode() != userRepository.findUserById(id).getPassword().hashCode()) {
             updateUser.setPassword(passwordEncoder.encode(updateUser.getPassword()));
         } else {
@@ -81,8 +71,4 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteUserById(id);
     }
 
-    @Transactional
-    public Role getRoleByName(String username){
-        return roleRepository.getRoleByName(username);
-    }
 }

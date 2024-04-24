@@ -16,9 +16,13 @@
     <!-- Navbar(Шапка) -->
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
         <p class="nav_caption">
-            <span class="nav_text_bold" th:text="${currentUser.getEmail()}"/>
+            <span class="nav_text_bold" th:text="${user.getEmail()}"/>
             with roles:
-            <span th:text="${currentUser.getRoles()}"/>
+            <span th:each="role : ${user.getRoles()}"
+                  th:selected="${user.getRoles().contains(role)}"
+                  th:name="${role.getName()}"
+                  th:text="${role.getName() + ' '}">
+            </span>
         </p>
 
         <ul class="navbar-nav px-3">
@@ -50,7 +54,7 @@
                 </div>
             </nav>
             <!-- Конец SideBarMenu (левое меню)-->
-            &lt;!&ndash;<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 tab-content">
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 tab-content">
 
                 <div id="admin-panel" class="tab-pane in active">
                     <h1>Admin panel</h1>
@@ -60,8 +64,7 @@
                             <button class="nav-link" id="new-user-tab" data-bs-toggle="tab" data-bs-target="#new-user" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">New User</button>
                         </div>
                     </nav>
-                    <div class="tab-content" id="nav-tabContent">
-                      <!-- Контент вкладки Users Table-->
+                   <div class="tab-content" id="nav-tabContent">
                         <div class="tab-pane fade show active" id="user-table" role="tabpanel" aria-labelledby="user-table-tab" tabindex="0">
                             <h5 class="caption">All users</h5>
                             <div class="table-container">
@@ -160,18 +163,26 @@
                                                                                    class="form-control" th:value="${''}"
                                                                             >
                                                                         </div>
-                                                                        <div class="mb-3">
-                                                                            <label for="roles" class="form-label">Role</label>
+                                                                        <!--<div class="mb-3">
+                                                                            <label for="rolesForEdit" class="form-label">Role</label>
                                                                             <select class="form-select" id="rolesForEdit" name="selectedRoles"
-                                                                                    th:size="${listRoles.size()}" multiple>
+                                                                                    multiple>
                                                                                 <option
                                                                                         th:each="role : ${listRoles}"
-                                                                                        th:selected="${user.getRoles().contains(role)}"
-                                                                                        th:name="${role}"
-                                                                                        th:text="${role}">
+                                                                                        th:name="${role.id}"
+                                                                                        th:text="${role.getName()}">
                                                                                 </option>
                                                                             </select>
+                                                                        </div>-->
+                                                                        <div class="mb-3">
+                                                                            <label for="roleForEdit" class="form-label">Role</label>
+                                                                            <select class="form-select" id="roleForEdit" name="selectedRolesNewUser"
+                                                                                    th:size="${2}" multiple th:field="${user.roles}">
+                                                                                <option value="1">User</option>
+                                                                                <option value="2">Admin</option>
+                                                                            </select>
                                                                         </div>
+
                                                                     </form>
                                                                 </div>
                                                                 <div class="modal-footer">
@@ -230,16 +241,23 @@
                                                                                        disabled>
                                                                             </div>
                                                                             <div class="mb-3">
-                                                                                <label for="rolesCurrUser" class="form-label">Role</label>
-                                                                                <select class="form-select" id="rolesCurrUser" name="selectedRolesNewUser"
-                                                                                        th:size="${user.getRoles().size()}" multiple disabled>
-                                                                                    <option
-                                                                                            th:each="role : ${user.getRoles()}"
-                                                                                            th:name="${role}"
-                                                                                            th:text="${role}">
-                                                                                    </option>
+                                                                                <label for="roleDeleteUser" class="form-label">Role</label>
+                                                                                <select class="form-select" id="roleDeleteUser" name="selectedRolesNewUser"
+                                                                                        th:size="${2}" multiple th:field="${user.roles}">
+                                                                                    <option value="1">User</option>
+                                                                                    <option value="2">Admin</option>
                                                                                 </select>
                                                                             </div>
+
+                                                                            <!--<div class="mb-3">
+                                                                                <label for="roles" class="form-label">Role</label>
+                                                                                <select class="form-select" id="roles" name="roles" th:field="*{roles}" multiple>
+                                                                                    <option th:each="role : ${listRoles}"
+                                                                                            th:value="${role.getName()}"
+                                                                                            th:text="${role.getName().equals('ROLE_USER') ? 'User' : 'Admin'}">
+                                                                                    </option>
+                                                                                </select>
+                                                                            </div>-->
                                                                         </form>
                                                                     </div>
                                                                     <div class="modal-footer">
@@ -266,42 +284,36 @@
                             </div>
                         </div>
 
-
-
                         <div class="tab-pane fade" id="new-user" role="tabpanel" aria-labelledby="new-user-tab" tabindex="0">
                             <h5 class="caption">Add new user</h5>
                             <div class="table-container user-container mb-3">
-                                <form th:method="post" th:action="@{/admin/save}" th:object="${newUser}">
+                                <form th:method="post" th:action="@{/admin/save}" th:object="${user}">
                                     <div>
                                         <label for="firstName" class="form-label">First name</label>
-                                        <input type="text" th:field="${newUser.username}" id="firstName" class="form-control" placeholder="First name" required>
+                                        <input type="text" th:field="${user.username}" id="firstName" class="form-control" placeholder="First name" required>
                                     </div>
                                     <div>
                                         <label for="lastName" class="form-label">Last name</label>
-                                        <input type="text" th:field="${newUser.lastname}" id="lastName" class="form-control" placeholder="Last name" required>
+                                        <input type="text" th:field="${user.lastname}" id="lastName" class="form-control" placeholder="Last name" required>
                                     </div>
                                     <div>
                                         <label for="lastName" class="form-label">Email</label>
-                                        <input type="text" th:field="${newUser.email}" id="email" class="form-control" placeholder="Email" required>
+                                        <input type="text" th:field="${user.email}" id="email" class="form-control" placeholder="Email" required>
                                     </div>
                                     <div>
                                         <label for="age" class="form-label">Age</label>
-                                        <input type="text" th:field="${newUser.age}" id="age" class="form-control" placeholder="Age" required>
+                                        <input type="text" th:field="${user.age}" id="age" class="form-control" placeholder="Age" required>
                                     </div>
                                     <div>
                                         <label for="pass" class="form-label">Password</label>
-                                        <input type="password" th:field="${newUser.password}" id="pass" class="form-control" placeholder="Password" required>
+                                        <input type="password" th:field="${user.password}" id="pass" class="form-control" placeholder="Password" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="roles" class="form-label">Role</label>
-                                        <select class="form-select" id="roles" name="selectedRolesNewUser"
-                                                th:size="${listRoles.size()}" multiple>
-                                            <option
-                                                    th:each="role : ${listRoles}"
-                                                    th:selected="${role.getName().equals('ROLE_USER')}"
-                                                    th:name="${role}"
-                                                    th:text="${role}">
-                                            </option>
+                                        <label for="roleNewUser" class="form-label">Role</label>
+                                        <select class="form-select" id="roleNewUser" name="selectedRolesNewUser"
+                                                th:size="${2}" multiple th:field="${user.roles}">
+                                            <option value="1">User</option>
+                                            <option value="2">Admin</option>
                                         </select>
                                     </div>
                                     <button type="submit" class="btn btn-success btn-lg">Add new user</button>
@@ -329,12 +341,12 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td th:text="${currentUser.getId()}"/>
-                                        <td th:text="${currentUser.getUsername()}"/>
-                                        <td th:text="${currentUser.getLastname()}"/>
-                                        <td th:text="${currentUser.getAge()}"/>
-                                        <td th:text="${currentUser.getEmail()}"/>
-                                        <td th:text="${currentUser.getRoles()}"/>
+                                        <td th:text="${user.getId()}"/>
+                                        <td th:text="${user.getUsername()}"/>
+                                        <td th:text="${user.getLastname()}"/>
+                                        <td th:text="${user.getAge()}"/>
+                                        <td th:text="${user.getEmail()}"/>
+                                        <td th:text="${user.getRoles()}"/>
                                     </tr>
                                 </tbody>
 

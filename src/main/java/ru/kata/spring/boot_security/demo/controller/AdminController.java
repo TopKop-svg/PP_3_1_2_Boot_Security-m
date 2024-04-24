@@ -15,6 +15,7 @@ import ru.kata.spring.boot_security.demo.services.RoleService;
 import ru.kata.spring.boot_security.demo.services.RoleServiceImpl;
 import ru.kata.spring.boot_security.demo.services.UserService;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -51,46 +52,30 @@ public class AdminController {
 
     @GetMapping(value = "/admin")
     public String index(ModelMap model, @AuthenticationPrincipal UserDetails authenticatedUser) {
-        List<User> list = userService.getAllUsers();
-        User currentUser = userService.findByUsername(authenticatedUser.getUsername());
-        model.addAttribute("listUsers", list);
-        model.addAttribute("currentUser", currentUser);
-        model.addAttribute("newUser", new User());
-        model.addAttribute("listRoles", roleService.getAllRoles());
+        //User currentUser = userService.findByUsername(authenticatedUser.getUsername());
+        model.addAttribute("listUsers", userService.getAllUsers());
+        /* model.addAttribute("listRoles", roleService.getAllRoles());*/
+        model.addAttribute("user",  userService.findByUsername(authenticatedUser.getUsername()));
+        //model.addAttribute("newUser", new User());
+        //model.addAttribute("listRoles", roleService.getAllRoles());
         return "admin-panel";
     }
 
-    @PostMapping("/admin/save")
-    public String createNewUser(@ModelAttribute("newUser") User newUser,
-                                @RequestParam(value = "selectedRolesNewUser", required = false) String[] selectedRolesNewUser){
-        Logger logger = LoggerFactory.getLogger(AdminController.class);
-        if (selectedRolesNewUser != null) {
-            Set<Role> roles = new HashSet<>();
-            for (String elemArrSelectedRoles : selectedRolesNewUser) {
-                roles.add(roleService.getRoleByName(elemArrSelectedRoles));
-            }
-            newUser.setRoles(roles);
-        }
-        logger.info("Saving new user: {}", newUser);
 
+    @PostMapping("/admin/save")
+    public String createNewUser(@ModelAttribute("user") User newUser
+    , @RequestParam(value = "selectedRolesNewUser", required = false) String role){
         userService.saveUser(newUser);
         return "redirect:/admin";
     }
     @PostMapping("/admin/update")
     public String update(
-            @ModelAttribute("user") User user,
-            @RequestParam(value = "selectedRoles", required = false) String[] selectedRoles
-    ){
-        if (selectedRoles != null) {
-            Set<Role> roles = new HashSet<>();
-            for (String elemArrSelectedRoles : selectedRoles) {
-                roles.add(roleService.getRoleByName(elemArrSelectedRoles));
-            }
-            user.setRoles(roles);
-        }
+            @ModelAttribute("user") User user
+            ){
         userService.updateUserById(user.getId(), user);
         return "redirect:/admin";
     }
+
 
     @PostMapping(value = "/admin/delete_user")
     public String deleteUser (@RequestParam(value = "id") int id, Model model) {
