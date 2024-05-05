@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,7 +12,7 @@ import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.services.UserService;
 
 
-
+@Slf4j
 @Controller
 public class AdminController {
     private final UserService userService;
@@ -50,6 +51,7 @@ public class AdminController {
     @PostMapping("/admin/save")
     public String createNewUser(@ModelAttribute("newUser") User newUser){
         userService.saveUser(newUser);
+        log.info("New user: " + newUser.getUsername());
         return "redirect:/admin";
     }
 
