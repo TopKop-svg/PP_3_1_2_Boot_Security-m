@@ -10,15 +10,19 @@ public class BaseController {
     @GetMapping("/admin")
     public String showAllUser(Model model) {
         model.addAttribute("newUser", new User());
-        return "admin-panel-rest";
+        return "admin";
     }
     @GetMapping("/user")
     public String showOneUser() {
-        return "user-panel-rest";
+        return "user";
     }
 
     @GetMapping("/login")
     public String loginPage() {
+        return "login";
+    }
+    @GetMapping("/")
+    public String emptyPage() {
         return "login";
     }
 }
