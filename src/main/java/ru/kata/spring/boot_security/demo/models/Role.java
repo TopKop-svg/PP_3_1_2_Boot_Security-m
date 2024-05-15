@@ -18,27 +18,30 @@ public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String name;
+
+    private String role;
 
     public Role() {
     }
 
     public Role(String name) {
-        this.name = name;
+        this.role = name;
     }
 
     public Role(int id, String name) {
         this.id = id;
-        this.name = name;
+
+
+        this.role = name;
     }
 
     @Override
     public String toString() {
-        return getName().replace("ROLE_", "");
+        return getRole().replace("ROLE_", "");
     }
 
     @Override
     public String getAuthority() {
-        return getName();
+        return getRole();
     }
 }

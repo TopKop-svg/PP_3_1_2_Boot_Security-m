@@ -34,7 +34,7 @@ function loadRolesDelete() {
     let select = document.getElementById("roleDelete");
     select.innerHTML = "";
 
-    fetch("http://localhost:8080/admin/roles")
+    fetch("http://localhost:8088/admin/roles")
         .then(res => res.json())
         .then(data => {
             data.forEach(role => {

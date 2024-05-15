@@ -24,10 +24,10 @@ function editUser() {
             },
             body: JSON.stringify({
                 id: formEdit.id.value,
-                name: formEdit.name.value,
-                lastName: formEdit.lastName.value,
+                username: formEdit.name.value,
+                lastname: formEdit.lastname.value,
+                email: formEdit.email.value,
                 age: formEdit.age.value,
-                username: formEdit.username.value,
                 password: formEdit.password.value,
                 roles: editUserRoles
             })
@@ -65,18 +65,20 @@ function displayEditErrors(errors) {
 }
 
 function loadRoles() {
-    let select = document.getElementById("roleEdit");
-    select.innerHTML = "";
-
-    fetch("http://localhost:8080/admin/roles")
+    fetch("http://localhost:8088/admin/roles")
         .then(res => res.json())
         .then(data => {
+            const select = document.getElementById("roleEdit");
+            select.innerHTML = "";
             data.forEach(role => {
-                let option = document.createElement("option");
+                const option = document.createElement("option");
                 option.value = role.id;
                 option.text = role.role === "ROLE_USER" ? "USER" : role.role === "ROLE_ADMIN" ? "ADMIN" : role.name;
                 select.appendChild(option);
             });
+
+            // Вызываем функцию после загрузки ролей
+            editUser();
         })
         .catch(error => console.error(error));
 }

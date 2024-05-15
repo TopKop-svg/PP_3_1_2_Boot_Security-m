@@ -31,11 +31,11 @@ public class DatabaseInitializer implements ApplicationListener<ContextRefreshed
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
         Role userRole = new Role();
-        userRole.setName("ROLE_USER");
+        userRole.setRole("ROLE_USER");
         roleRepository.save(userRole);
 
         Role adminRole = new Role();
-        adminRole.setName("ROLE_ADMIN");
+        adminRole.setRole("ROLE_ADMIN");
         roleRepository.save(adminRole);
 
         Set<Role> userRoles = new HashSet<>();

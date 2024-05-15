@@ -20,10 +20,10 @@ function addUser() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                name: formNew.name.value,
+                username: formNew.username.value,
                 lastName: formNew.lastName.value,
                 age: formNew.age.value,
-                username: formNew.username.value,
+                email: formNew.email.value,
                 password: formNew.password.value,
                 roles: newUserRoles
             })
