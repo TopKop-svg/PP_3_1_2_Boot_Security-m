@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.services.RoleService;
 import ru.kata.spring.boot_security.demo.services.UserService;
 
+import java.util.Collection;
 import java.util.List;
 
 
@@ -72,6 +74,15 @@ public class AdminController {
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable int id) {
         userService.deleteUserById(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @GetMapping("/roles")
+    public ResponseEntity<List<Role>> getAllRoles() {
+        return new ResponseEntity<>(roleService.getAllRoles(), HttpStatus.OK);
+    }
+
+    @GetMapping("/roles/{id}")
+    public ResponseEntity<Collection<Role>> getMyRoles(@PathVariable("id") int id) {
+        return new ResponseEntity<>(userService.findById(id).getRoles(), HttpStatus.OK);
     }
 
 

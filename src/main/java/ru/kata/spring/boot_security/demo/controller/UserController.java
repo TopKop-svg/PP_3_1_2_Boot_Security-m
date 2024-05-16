@@ -20,7 +20,7 @@ import ru.kata.spring.boot_security.demo.services.UserService;
 public class UserController {
     @GetMapping("/auth")
     public ResponseEntity<User> getAuthUser(@AuthenticationPrincipal User user) {
-        log.info("current user : " + user.getUsername() + "\n user email: " + user.getEmail() );
+       /* log.info("current user : " + user.getUsername() + "\n user email: " + user.getEmail() );*/
         return ResponseEntity.ok(user);
     }
 

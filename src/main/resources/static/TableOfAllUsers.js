@@ -3,16 +3,13 @@ tableOfAllUsers();
 function tableOfAllUsers() {
     table.empty()
     fetch("http://localhost:8088/adminApi/users")
-    .then(res => res.json())
-    .then(data => {data.forEach(user => {
-        let roles = "";
-        user.roles.forEach(role => {roles += role.role + " ";});
-        let usersTable = `<tr>
+        .then(res => res.json())
+        .then(data => {data.forEach(user => {
+            let roles = "";
+            user.roles.forEach(role => {roles += role.role + " ";});
+            let usersTable = `<tr>
           <td>${user.id}</td>
           <td>${user.username}</td>
-          <td>${user.lastname}</td>
-          <td>${user.age}</td>
-          <td>${user.email}</td>
           <td>${roles}</td>
              <td>
               <button type="button" class="btn btn-sm btn-info"
@@ -27,7 +24,6 @@ function tableOfAllUsers() {
                 onclick="deleteModalData(${user.id})">Delete</button>
             </td>
         </tr>)`;
-              table.append(usersTable);})
-    })
+            table.append(usersTable);})
+        })
 }
-

@@ -17,35 +17,28 @@ public class User implements UserDetails {
 
     @Id
     @Getter
-    @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Setter
     @Getter
-    @Column(name = "username", nullable = true, length = 25)
+    @Column(name = "username", length = 25)
     private String username;
-    @Setter
     private String password;
 
-    @Setter
-    @Getter
-    @Column(name = "lastname", nullable = true, length = 25)
+   /* @Getter
+    @Column(name = "lastname", length = 25)
     private String lastname;
 
     @Getter
-    @Setter
     @Column(name = "email", nullable = false, length = 30)
     @NotBlank(message = "Email is required")
     @Email(message = "Email must be a valid email address")
     private String email;
 
     @Getter
-    @Setter
-    private int age;
+    private int age;*/
 
     @Getter
-    @Setter
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
@@ -58,9 +51,9 @@ public class User implements UserDetails {
     public User(String username, String password, String lastname, int age, String email, Set<Role> roles) {
         this.username = username;
         this.password = password;
-        this.lastname = lastname;
+     /*   this.lastname = lastname;
         this.age = age;
-        this.email = email;
+        this.email = email;*/
         this.roles = roles;
     }
 
@@ -69,10 +62,10 @@ public class User implements UserDetails {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
+            /*    ", email='" + email + '\'' +*/
                 ", password='" + password + '\'' +
-                ", name='" + lastname + '\'' +
-                ", age=" + age +
+        /*        ", name='" + lastname + '\'' +
+                ", age=" + age +*/
                 '}';
     }
 

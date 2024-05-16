@@ -18,7 +18,7 @@ async function deleteModalData(id) {
 function deleteUser() {
     formDelete .addEventListener("submit", ev => {
         ev.preventDefault();
-        fetch("http://localhost:8080/admin/" + formDelete .id.value, {
+        fetch("http://localhost:8088/adminApi/user" + formDelete .id.value, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -34,7 +34,7 @@ function loadRolesDelete() {
     let select = document.getElementById("roleDelete");
     select.innerHTML = "";
 
-    fetch("http://localhost:8088/admin/roles")
+    fetch("http://localhost:8088/adminApi/roles")
         .then(res => res.json())
         .then(data => {
             data.forEach(role => {
@@ -48,4 +48,23 @@ function loadRolesDelete() {
 }
 
 window.addEventListener("load", loadRolesDelete);
+/*function loadRolesDelete() {
+    let select = document.getElementById("roleDelete");
+    select.innerHTML = "";
 
+    fetch("http://localhost:8088/adminApi/roles")
+        .then(res => res.json())
+        .then(data => {
+            data.forEach(role => {
+                let option = document.createElement("option");
+                option.value = role.id;
+                option.text = role.role === "ROLE_USER" ? "USER" : role.role === "ROLE_ADMIN" ? "ADMIN" : role.name;
+                select.appendChild(option);
+            });
+        })
+        .catch(error => console.error(error));
+}*/
+
+/*
+window.addEventListener("load", loadRolesDelete);
+*/
