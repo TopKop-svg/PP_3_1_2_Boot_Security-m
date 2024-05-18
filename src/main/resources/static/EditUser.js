@@ -1,86 +1,118 @@
 let formEdit = document.forms["formEditUser"];
-editUser();
+const id_edit = document.getElementById("id_edit");
+const username_edit = document.getElementById("username_edit");
+const password_edit = document.getElementById("password_edit");
+const closeEditButton = document.getElementById("editFormCloseButton");
+const editUserButton = document.getElementById("editUserButton");
 
-async function editModalData(id) {
-    const modal = new bootstrap.Modal(document.querySelector('#editModal'));
-    await theModal(formEdit, modal, id);
-    loadRoles();
+async function loadAllRoles() {
+    try {
+        const response = await fetch('http://localhost:8088/adminApi/roles');
+        if (!response.ok) {
+            throw new Error('Failed to fetch roles');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error(error.message);
+    }
 }
 
-function editUser() {
-    formEdit.addEventListener("submit", ev => {
-        ev.preventDefault();
-        let editUserRoles = [];
-        for (let i = 0; i < formEdit.roles.options.length; i++) {
-            if (formEdit.roles.options[i].selected) editUserRoles.push({
-                id: formEdit.roles.options[i].value,
-                role: "ROLE_" + formEdit.roles.options[i].text
-            });
+async function editModalData(id) {
+    try {
+        const modal = new bootstrap.Modal(document.querySelector('#editModal'));
+
+        // Отображение модального окна
+        modal.show();
+
+        // Загрузка данных пользователя
+        const response = await fetch(`http://localhost:8088/adminApi/user/${id}`);
+        if (!response.ok) {
+            throw new Error("Failed to fetch user data");
         }
-        fetch("http://localhost:8088/adminApi/user/" + formEdit.id.value, {
+        const user = await response.json();
+
+        // Заполнение полей ID и Username
+        id_edit.value = user.id;
+        username_edit.value = user.username;
+
+        // Загрузка всех ролей
+        const allRoles = await loadAllRoles();
+
+        // Заполнение списка выбора ролей
+        const roleSelect = document.getElementById("roleEdit");
+        roleSelect.innerHTML = ""; // Очищаем список перед заполнением
+
+        // Добавляем опции для каждой роли
+        allRoles.forEach(role => {
+            const option = document.createElement("option");
+            option.value = role.id;
+            option.text = role.role;
+            roleSelect.appendChild(option);
+        });
+
+        // Устанавливаем выбранные роли для текущего пользователя
+        user.roles.forEach(userRole => {
+            for (let option of roleSelect.options) {
+                if (option.value === userRole.id) {
+                    option.selected = true;
+                }
+            }
+        });
+        editUserButton.addEventListener("click", submitHandler);
+
+        // Удаляем предыдущие обработчики события submit, чтобы избежать дублирования
+        //formEdit.removeEventListener("submit", submitHandler);
+
+        // Добавляем новый обработчик события submit
+        //formEdit.addEventListener("submit", submitHandler);
+
+    } catch (error) {
+        console.error(error.message);
+    }
+}
+
+// Обработчик отправки формы
+async function submitHandler(event) {
+    event.preventDefault(); // Предотвращаем отправку формы по умолчанию
+
+    const roleSelect = document.getElementById("roleEdit");
+    const selectedRoles = Array.from(roleSelect.selectedOptions).map(option => ({
+        id: option.value,
+        role: option.text
+    }));
+
+    const editedUser = {
+        id: id_edit.value,
+        username: username_edit.value,
+        password: password_edit.value,
+        roles: selectedRoles
+    };
+
+    try {
+        const response = await fetch(`http://localhost:8088/adminApi/user/${id_edit.value}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                id: formEdit.id.value,
-                username: formEdit.name.value,
-                lastname: formEdit.lastname.value,
-                email: formEdit.email.value,
-                age: formEdit.age.value,
-                password: formEdit.password.value,
-                roles: editUserRoles
-            })
-        }).then(response => {
-            if (response.ok) {
-                $('#editFormCloseButton').click();
-                tableOfAllUsers();
-            } else {
-                response.json().then(errors => {
-                    displayEditErrors(errors);
-                });
-            }
+            body: JSON.stringify(editedUser)
         });
-    });
-}
 
-
-
-function displayEditErrors(errors) {
-    try {
-        let errorEditDiv = document.getElementById("errorEditDiv");
-        errorEditDiv.innerHTML = "";
-        errors.forEach(error => {
-            let errorSpan = document.createElement("span");
-            errorSpan.className = "error-message";
-            errorSpan.innerHTML = error;
-            errorEditDiv.appendChild(errorSpan);
-        });
-    } catch (e) {
-        if (e instanceof TypeError) {
-            $('#editFormCloseButton').click();
-            tableOfAllUsers();
+        if (!response.ok) {
+            throw new Error("Failed to update user");
         }
+
+        // Закрытие модального окна
+        const modal = new bootstrap.Modal(document.querySelector('#editModal'));
+        modal.hide();
+
+        // Обновление данных на странице, если необходимо
+        // например, вызов функции, которая обновляет таблицу пользователей
+       // editUserButton.click();
+        tableOfAllUsers();
+
+    } catch (error) {
+        console.error(error.message);
     }
 }
 
-function loadRoles() {
-    fetch("http://localhost:8088/admin/roles")
-        .then(res => res.json())
-        .then(data => {
-            const select = document.getElementById("roleEdit");
-            select.innerHTML = "";
-            data.forEach(role => {
-                const option = document.createElement("option");
-                option.value = role.id;
-                option.text = role.role === "ROLE_USER" ? "USER" : role.role === "ROLE_ADMIN" ? "ADMIN" : role.name;
-                select.appendChild(option);
-            });
 
-            // Вызываем функцию после загрузки ролей
-            editUser();
-        })
-        .catch(error => console.error(error));
-}
-
-window.addEventListener("load", loadRoles);
