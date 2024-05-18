@@ -133,16 +133,16 @@
                                                 <div class="modal-body col-md text-center">
                                                     <div class="form-group text-center">
 
-                                                        <label for="id" class="mb-0"><b>ID</b></label>
+                                                        <label for="id_delete" class="mb-0"><b>ID</b></label>
                                                         <input th:name="id" th:type="text"
-                                                               class="form-control" id="id" placeholder="ID"
+                                                               class="form-control" id="id_delete" placeholder="ID"
                                                                style="width:25vh; margin-left:auto; margin-right:auto"
                                                                disabled>
 
-                                                        <label for="username" class="mb-0 mt-3"><b>Username</b></label>
+                                                        <label for="username_delete" class="mb-0 mt-3"><b>Username</b></label>
                                                         <input th:name="username" th:type="text"
                                                                class="form-control"
-                                                               id="username" placeholder="First name"
+                                                               id="username_delete" placeholder="First name"
                                                                style="width:25vh; margin-left:auto; margin-right:auto"
                                                                disabled>
 
@@ -160,9 +160,10 @@
                                                             id="deleteFormCloseButton"
                                                             data-dismiss="modal">Close
                                                     </button>
-
-                                                    <input type="submit" class="btn btn-sm btn-danger"
-                                                           value="Delete"/>
+                                                    <button type="submit" class="btn btn-sm btn-danger"
+                                                            id="deleteUserButton" onclick="tableOfAllUsers()"
+                                                            data-dismiss="modal">Delete
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>
