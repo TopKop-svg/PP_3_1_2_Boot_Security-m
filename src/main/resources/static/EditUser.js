@@ -20,15 +20,13 @@ async function loadAllRoles() {
 async function editModalData(id) {
     try {
         const modal = new bootstrap.Modal(document.querySelector('#editModal'));
-
         // Отображение модального окна
         modal.show();
-
         // Загрузка данных пользователя
         const response = await fetch(`http://localhost:8088/adminApi/user/${id}`);
-        if (!response.ok) {
+        /*if (!response.ok) {
             throw new Error("Failed to fetch user data");
-        }
+        }*/
         const user = await response.json();
 
         // Заполнение полей ID и Username
@@ -59,6 +57,7 @@ async function editModalData(id) {
             }
         });
         editUserButton.addEventListener("click", submitHandler);
+
 
         // Удаляем предыдущие обработчики события submit, чтобы избежать дублирования
         //formEdit.removeEventListener("submit", submitHandler);
@@ -97,18 +96,18 @@ async function submitHandler(event) {
             body: JSON.stringify(editedUser)
         });
 
-        if (!response.ok) {
+       /* if (!response.ok) {
             throw new Error("Failed to update user");
-        }
+        }*/
 
-        // Закрытие модального окна
+        /*// Закрытие модального окна
         const modal = new bootstrap.Modal(document.querySelector('#editModal'));
-        modal.hide();
+        modal.hide();*/
 
         // Обновление данных на странице, если необходимо
         // например, вызов функции, которая обновляет таблицу пользователей
        // editUserButton.click();
-        tableOfAllUsers();
+       /* tableOfAllUsers();*/
 
     } catch (error) {
         console.error(error.message);

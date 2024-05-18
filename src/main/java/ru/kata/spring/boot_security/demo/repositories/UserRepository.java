@@ -8,5 +8,5 @@ import ru.kata.spring.boot_security.demo.models.User;
 public interface UserRepository extends JpaRepository<User, Integer> {
     User findByUsername(String username);
     User findUserById(int id);
-    boolean deleteUserById(int id);
+    void deleteUserById(int id);
 }
