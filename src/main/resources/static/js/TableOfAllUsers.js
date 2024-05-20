@@ -13,6 +13,9 @@ function tableOfAllUsers() {
                 let usersTable = `<tr>
                 <td>${user.id}</td>
                 <td>${user.username}</td>
+                <td>${user.lastname}</td>
+                <td>${user.email}</td>
+                <td>${user.age}</td>
                 <td>${roles}</td>
                 <td>
                     <button type="button" class="btn btn-sm btn-info"

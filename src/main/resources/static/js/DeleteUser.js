@@ -1,12 +1,13 @@
 let formDelete = document.forms["formDeleteUser"];
 const id_delete = document.getElementById("id_delete");
 const username_delete = document.getElementById("username_delete");
+const lastname_delete = document.getElementById("lastname_delete");
+const email_delete = document.getElementById("email_delete");
+const age_delete = document.getElementById("age_delete");
 const closeDeleteButton = document.getElementById("deleteFormCloseButton");
 const deleteUserButton = document.getElementById("deleteUserButton");
 const deleteModal = document.getElementById("deleteModal");
 const bsDeleteModal = new bootstrap.Modal(deleteModal);
-
-
 
 async function deleteModalData(id) {
     try {
@@ -18,6 +19,9 @@ async function deleteModalData(id) {
 
         id_delete.value = user.id;
         username_delete.value = user.username;
+        lastname_delete.value = user.lastname;
+        email_delete.value = user.email;
+        age_delete.value = user.age;
 
         bsDeleteModal.show();
 

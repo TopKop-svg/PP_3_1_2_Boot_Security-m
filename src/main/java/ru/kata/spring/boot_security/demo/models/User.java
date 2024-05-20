@@ -25,7 +25,7 @@ public class User implements UserDetails {
     private String username;
     private String password;
 
-   /* @Getter
+    @Getter
     @Column(name = "lastname", length = 25)
     private String lastname;
 
@@ -36,7 +36,7 @@ public class User implements UserDetails {
     private String email;
 
     @Getter
-    private int age;*/
+    private int age;
 
     @Getter
     @ManyToMany(fetch = FetchType.EAGER)
@@ -51,9 +51,9 @@ public class User implements UserDetails {
     public User(String username, String password, String lastname, int age, String email, Set<Role> roles) {
         this.username = username;
         this.password = password;
-     /*   this.lastname = lastname;
+        this.lastname = lastname;
         this.age = age;
-        this.email = email;*/
+        this.email = email;
         this.roles = roles;
     }
 
@@ -62,10 +62,10 @@ public class User implements UserDetails {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-            /*    ", email='" + email + '\'' +*/
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-        /*        ", name='" + lastname + '\'' +
-                ", age=" + age +*/
+                ", name='" + lastname + '\'' +
+                ", age=" + age +
                 '}';
     }
 

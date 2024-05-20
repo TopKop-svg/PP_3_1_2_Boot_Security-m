@@ -24,9 +24,12 @@
             <div class="container-fluid px-0">
                 <ul class="nav flex-column nav-pills ">
                     <li class="nav-item">
-                        <div sec:authorize="hasRole('ROLE_USER')">
-                            <a class="nav-link active" href="/user">User</a>
+                        <div sec:authorize="hasRole('ROLE_ADMIN')">
+                            <a class="nav-link" aria-current="page" href="/admin">Admin</a>
                         </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/user">User</a>
                     </li>
                 </ul>
             </div>

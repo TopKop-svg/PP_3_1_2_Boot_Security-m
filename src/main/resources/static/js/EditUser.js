@@ -1,9 +1,14 @@
 let formEdit = document.forms["formEditUser"];
 const id_edit = document.getElementById("id_edit");
 const username_edit = document.getElementById("username_edit");
+const lastname_edit = document.getElementById("lastname_edit");
+const email_edit = document.getElementById("email_edit");
+const age_edit = document.getElementById("age_edit");
 const password_edit = document.getElementById("password_edit");
 const closeEditButton = document.getElementById("editFormCloseButton");
 const editUserButton = document.getElementById("editUserButton");
+const editModal = document.getElementById("editModal");
+const bsEditModal = new bootstrap.Modal(editModal);
 
 async function loadAllRoles() {
     try {
@@ -20,27 +25,22 @@ async function loadAllRoles() {
 async function editModalData(id) {
     try {
         const modal = new bootstrap.Modal(document.querySelector('#editModal'));
-        // Отображение модального окна
         modal.show();
-        // Загрузка данных пользователя
+
         const response = await fetch(`http://localhost:8088/adminApi/user/${id}`);
-        /*if (!response.ok) {
-            throw new Error("Failed to fetch user data");
-        }*/
         const user = await response.json();
 
-        // Заполнение полей ID и Username
         id_edit.value = user.id;
         username_edit.value = user.username;
+        lastname_edit.value = user.lastname;
+        email_edit.value = user.email;
+        age_edit.value = user.age;
 
-        // Загрузка всех ролей
         const allRoles = await loadAllRoles();
 
-        // Заполнение списка выбора ролей
         const roleSelect = document.getElementById("roleEdit");
-        roleSelect.innerHTML = ""; // Очищаем список перед заполнением
+        roleSelect.innerHTML = "";
 
-        // Добавляем опции для каждой роли
         allRoles.forEach(role => {
             const option = document.createElement("option");
             option.value = role.id;
@@ -48,31 +48,25 @@ async function editModalData(id) {
             roleSelect.appendChild(option);
         });
 
-        // Устанавливаем выбранные роли для текущего пользователя
         user.roles.forEach(userRole => {
             for (let option of roleSelect.options) {
-                if (option.value === userRole.id) {
+                if (option.value == userRole.id) {
                     option.selected = true;
                 }
             }
         });
-        editUserButton.addEventListener("click", submitHandler);
-
-
-        // Удаляем предыдущие обработчики события submit, чтобы избежать дублирования
-        //formEdit.removeEventListener("submit", submitHandler);
-
-        // Добавляем новый обработчик события submit
-        //formEdit.addEventListener("submit", submitHandler);
-
+        formEdit.addEventListener("submit", submitHandler, modal.close());
+        /*formEdit.addEventListener("submit", submitHandler, modal.hide());
+        editUserButton.addEventListener("submit", modal.close());*/
+       /* editUserButton.click("submit", submitHandler());*/
+        //closeEditButton.click();
     } catch (error) {
         console.error(error.message);
     }
 }
 
-// Обработчик отправки формы
 async function submitHandler(event) {
-    event.preventDefault(); // Предотвращаем отправку формы по умолчанию
+    event.preventDefault();
 
     const roleSelect = document.getElementById("roleEdit");
     const selectedRoles = Array.from(roleSelect.selectedOptions).map(option => ({
@@ -83,6 +77,9 @@ async function submitHandler(event) {
     const editedUser = {
         id: id_edit.value,
         username: username_edit.value,
+        lastname: lastname_edit.value,
+        email: email_edit.value,
+        age: age_edit.value,
         password: password_edit.value,
         roles: selectedRoles
     };
@@ -96,22 +93,15 @@ async function submitHandler(event) {
             body: JSON.stringify(editedUser)
         });
 
-       /* if (!response.ok) {
-            throw new Error("Failed to update user");
-        }*/
+        if (!response.ok) {
+            throw new Error('Failed to update user');
+        }
 
-        /*// Закрытие модального окна
-        const modal = new bootstrap.Modal(document.querySelector('#editModal'));
-        modal.hide();*/
+        tableOfAllUsers();
 
-        // Обновление данных на странице, если необходимо
-        // например, вызов функции, которая обновляет таблицу пользователей
-       // editUserButton.click();
-       /* tableOfAllUsers();*/
 
     } catch (error) {
         console.error(error.message);
     }
 }
-
 

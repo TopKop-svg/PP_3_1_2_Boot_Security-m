@@ -33,24 +33,15 @@ public class UserServiceImpl implements UserService {
         return userRepository.findUserById(id);
     }
 
-
     @Transactional
     public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
-
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
-
-
-    public User showUserById(int id) {
-        Optional<User> userById = userRepository.findById(id);
-        return userById.orElse(null);
-    }
-
 
     @Transactional
     public void updateUserById(int id, User updateUser) {

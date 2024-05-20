@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" , xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -30,7 +30,7 @@
             <div class="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 <a class="nav-link active" href="/admin" role="tab"
                    aria-controls="v-pills-home" aria-selected="true">Admin</a>
-                <a class="nav-link" href="/user" role="tab"
+                <a class="nav-link" href="/current-admin" role="tab"
                    aria-controls="v-pills-profile" aria-selected="false">User</a>
             </div>
         </div>
@@ -57,6 +57,9 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Username</th>
+                                        <th>LastName</th>
+                                        <th>Email</th>
+                                        <th>Age</th>
                                         <th>Role</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
@@ -66,8 +69,7 @@
                                     </tbody>
                                 </table>
                             <!--Edit modal View-->
-                                <div class="modal fade" tabindex="-1" id="editModal"
-                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" tabindex="-1" id="editModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -78,49 +80,44 @@
                                             </div>
                                             <form id="formEditUser">
                                                 <div class="modal-body col-md text-center">
-                                                   <div id="errorEditDiv" style="display: flex; flex-direction: column"></div>
+                                                    <div id="errorEditDiv" style="display: flex; flex-direction: column"></div>
                                                     <div class="form-group text-center">
 
                                                         <label for="id_edit" class="mb-0"><b>ID</b></label>
-                                                        <input th:name="id" th:type="text"
-                                                               class="form-control" id="id_edit" placeholder="ID"
-                                                               style="width:25vh; margin-left:auto; margin-right:auto"
-                                                               disabled>
+                                                        <input class="form-control" id="id_edit" placeholder="ID" style="width:25vh; margin-left:auto; margin-right:auto" disabled>
 
                                                         <label for="username_edit" class="mb-0 mt-3"><b>Username</b></label>
-                                                        <input th:name="username" th:type="text"
-                                                               class="form-control"
-                                                               id="username_edit" placeholder="Username"
-                                                               style="width:25vh; margin-left:auto; margin-right:auto">
+                                                        <input class="form-control" id="username_edit" placeholder="Username" style="width:25vh; margin-left:auto; margin-right:auto">
+
+                                                        <label for="lastname_edit" class="mb-0 mt-3"><b>LastName</b></label>
+                                                        <input class="form-control" id="lastname_edit" placeholder="LastName" style="width:25vh; margin-left:auto; margin-right:auto">
+
+                                                        <label for="email_edit" class="mb-0 mt-3"><b>Email</b></label>
+                                                        <input class="form-control" id="email_edit" placeholder="Email" style="width:25vh; margin-left:auto; margin-right:auto">
+
+                                                        <label for="age_edit" class="mb-0 mt-3"><b>Age</b></label>
+                                                        <input class="form-control" id="age_edit" placeholder="Age" style="width:25vh; margin-left:auto; margin-right:auto">
 
                                                         <label for="password_edit" class="mb-0 mt-3"><b>Password</b></label>
-                                                        <input th:name="password" th:type="password"
-                                                               class="form-control" id="password_edit"
-                                                               placeholder="Password"
-                                                               style="width:25vh; margin-left:auto; margin-right:auto">
+                                                        <input class="form-control" id="password_edit" placeholder="Password" style="width:25vh; margin-left:auto; margin-right:auto">
                                                     </div>
                                                     <div class="form-group text-center" style="width: 25vh; margin-left: auto; margin-right: auto;">
                                                         <label for="roleEdit" class="mb-0"><b>Role</b></label>
                                                         <select multiple size="2" class="custom-select" name="roles" id="roleEdit"></select>
                                                     </div>
-
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-sm btn-secondary"
-                                                            id="editFormCloseButton"
-                                                            data-dismiss="modal">Close
-                                                    </button>
-
-                                                    <button type="submit" class="btn btn-sm btn-danger"
-                                                            id="editUserButton" onclick="tableOfAllUsers()"
-                                                            data-dismiss="modal">Edit
-                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-secondary" id="editFormCloseButton" data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-sm btn-danger" id="editUserButton" >Edit</button>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
-                            <!--End Edit modal View-->
+
+
+
+                                <!--End Edit modal View-->
                             <!--Delete modal View-->
                                 <div class="modal fade" tabindex="-1" id="deleteModal"
                                      aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -148,6 +145,24 @@
                                                                id="username_delete" placeholder="First name"
                                                                style="width:25vh; margin-left:auto; margin-right:auto"
                                                                disabled>
+
+                                                        <label for="lastname_delete" class="mb-0 mt-3"><b>LastName</b></label>
+                                                        <input th:name="username" th:type="text"
+                                                               class="form-control"
+                                                               id="lastname_delete" placeholder="LastName"
+                                                               style="width:25vh; margin-left:auto; margin-right:auto">
+
+                                                        <label for="email_delete" class="mb-0 mt-3"><b>Email</b></label>
+                                                        <input th:name="username" th:type="text"
+                                                               class="form-control"
+                                                               id="email_delete" placeholder="Email"
+                                                               style="width:25vh; margin-left:auto; margin-right:auto">
+
+                                                        <label for="age_delete" class="mb-0 mt-3"><b>Age</b></label>
+                                                        <input th:name="username" th:type="text"
+                                                               class="form-control"
+                                                               id="age_delete" placeholder="Age"
+                                                               style="width:25vh; margin-left:auto; margin-right:auto">
 
                                                     </div>
                                                     <div class="form-group text-center"
@@ -182,16 +197,22 @@
                             <h5 class="card-header">Add new user</h5>
                             <div class="card-body">
                                 <form class="offset-md-4 col-sm-4" id="formNewUser">
-                                    <font color="red"><div id="errorAddDiv" style="display: flex; flex-direction: column"></div></font>
+                                        <div id="errorAddDiv" style="display: flex; flex-direction: column"></div>
                                     <div class="form-group text-center">
+                                        <label for="username_new" class="mb-0"><b>Username</b></label>
+                                        <input type="text" class="form-control" id="username_new" name="username" placeholder="Username">
 
-                                        <label for="usernameNew" class="mb-0"><b>Username</b></label>
-                                        <input type="text" class="form-control" id="usernameNew"
-                                               placeholder="Username">
+                                        <label for="lastname_new" class="mb-0"><b>LastName</b></label>
+                                        <input type="text" class="form-control" id="lastname_new" name="lastname" placeholder="LastName">
+
+                                        <label for="email_new" class="mb-0"><b>Email</b></label>
+                                        <input type="text" class="form-control" id="email_new" name="email" placeholder="Email">
+
+                                        <label for="age_new" class="mb-0"><b>Age</b></label>
+                                        <input type="text" class="form-control" id="age_new" name="age" placeholder="0">
 
                                         <label for="password" class="mb-0 mt-3"><b>Password</b></label>
-                                        <input type="password" class="form-control" id="password"
-                                               placeholder="Password">
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                                     </div>
                                     <div class="form-group text-center" style="width: 25vh; margin-left: auto; margin-right: auto;">
                                         <label for="roleAdd" class="mb-0"><b>Role</b></label>
@@ -204,7 +225,7 @@
                             </div>
                         </div>
                     </div>
-                <!--End New User page-->
+                    <!--End New User page-->
                 </div>
             </div>
         </div>
@@ -221,15 +242,14 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 
-<script type="text/javascript" src="EditUser.js"></script>
-<script type="text/javascript" src="GetUserId.js"></script>
-<script type="text/javascript" src="TheModal.js"></script>
-<script type="text/javascript" src="TableOfAllUsers.js"></script>
-<script type="text/javascript" src="AddUser.js"></script>
-<script type="text/javascript" src="ShowUserInfo.js"></script>
-<!--Проверенные-->
+<script type="text/javascript" src="js/GetUserId.js"></script>
+<script type="text/javascript" src="js/TheModal.js"></script>
+<script type="text/javascript" src="js/TableOfAllUsers.js"></script>
+<script type="text/javascript" src="js/AddUser.js"></script>
+<script type="text/javascript" src="js/ShowUserInfo.js"></script>
 <script type="text/javascript" src="js/CurrentUser.js"></script>
 <script type="text/javascript" src="js/DeleteUser.js"></script>
+<script type="text/javascript" src="js/EditUser.js"></script>
 
 </body>
 </html>

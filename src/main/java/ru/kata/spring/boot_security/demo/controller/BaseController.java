@@ -17,6 +17,11 @@ public class BaseController {
         return "user";
     }
 
+    @GetMapping("/current-admin")
+    public String showOneAdmin() {
+        return "current-admin";
+    }
+
     @GetMapping("/login")
     public String loginPage() {
         return "login";

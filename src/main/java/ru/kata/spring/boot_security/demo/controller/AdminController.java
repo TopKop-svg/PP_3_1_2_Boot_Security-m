@@ -41,13 +41,6 @@ public class AdminController {
         return ResponseEntity.ok(list);
     }
 
-    @GetMapping("/users/{id}")
-    public ResponseEntity<User> getTest(@PathVariable int id) {
-        User user = userService.findById(id);
-        return ResponseEntity.ok(user);
-    }
-
-
     @GetMapping("/user/{id}")
     public ResponseEntity<User> getUser(@PathVariable int id) {
         User user = userService.findById(id);
@@ -79,47 +72,6 @@ public class AdminController {
     public ResponseEntity<Collection<Role>> getMyRoles(@PathVariable("id") int id) {
         return new ResponseEntity<>(userService.findById(id).getRoles(), HttpStatus.OK);
     }
-
-
-   /* @GetMapping("/")
-    public String firstPage() {
-        return "login";
-    }*/
-
-   /* @GetMapping(value = "/login")
-    public String loginPage() {
-        return "login";
-    }*/
-
-    /*@RequestMapping("/login_error")
-    public String loginError(Model model) {
-        model.addAttribute("loginError", true);
-        return "login";
-    }*/
-
-
-
-    /*@GetMapping(value = "/admin")
-    public String index(ModelMap model, @AuthenticationPrincipal UserDetails authenticatedUser) {
-        model.addAttribute("listUsers", userService.getAllUsers());
-        model.addAttribute("user",  userService.findByUsername(authenticatedUser.getUsername()));
-        model.addAttribute("newUser", new User());
-
-        return "admin-panel-rest";
-    }*/
-
-
-
-
-
-   /* @DeleteMapping(value = "api/admin/user/{id}")
-    public ResponseEntity<HttpStatus> deleteUser(@PathVariable(name = "id") int id) {
-        final boolean deleted = userService.deleteUserById(id);
-
-        return deleted
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-    }*/
 
 }
 
