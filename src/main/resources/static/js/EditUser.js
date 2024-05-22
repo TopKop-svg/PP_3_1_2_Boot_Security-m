@@ -23,42 +23,39 @@ async function loadAllRoles() {
 }
 
 async function editModalData(id) {
-    try {
-        const modal = new bootstrap.Modal(document.querySelector('#editModal'));
-        modal.show();
+    const modal = new bootstrap.Modal(document.querySelector('#editModal'));
+    modal.show();
 
-        const response = await fetch(`http://localhost:8088/adminApi/user/${id}`);
-        const user = await response.json();
+    const response = await fetch(`http://localhost:8088/adminApi/user/${id}`);
+    const user = await response.json();
 
-        id_edit.value = user.id;
-        username_edit.value = user.username;
-        lastname_edit.value = user.lastname;
-        email_edit.value = user.email;
-        age_edit.value = user.age;
+    id_edit.value = user.id;
+    username_edit.value = user.username;
+    lastname_edit.value = user.lastname;
+    email_edit.value = user.email;
+    age_edit.value = user.age;
 
-        const allRoles = await loadAllRoles();
+    const allRoles = await loadAllRoles();
 
-        const roleSelect = document.getElementById("roleEdit");
-        roleSelect.innerHTML = "";
+    const roleSelect = document.getElementById("roleEdit");
+    roleSelect.innerHTML = "";
 
-        allRoles.forEach(role => {
-            const option = document.createElement("option");
-            option.value = role.id;
-            option.text = role.role;
-            roleSelect.appendChild(option);
-        });
+    allRoles.forEach(role => {
+        const option = document.createElement("option");
+        option.value = role.id;
+        option.text = role.role;
+        roleSelect.appendChild(option);
+    });
 
-        user.roles.forEach(userRole => {
-            for (let option of roleSelect.options) {
-                if (option.value == userRole.id) {
-                    option.selected = true;
-                }
+    user.roles.forEach(userRole => {
+        for (let option of roleSelect.options) {
+            if (option.value == userRole.id) {
+                option.selected = true;
             }
-        });
-        formEdit.addEventListener("submit", submitHandler, modal.hide());
-    } catch (error) {
-        console.error(error.message);
-    }
+        }
+    });
+    formEdit.addEventListener("submit", submitHandler, modal.hide());
+
 }
 
 async function submitHandler(event) {

@@ -10,11 +10,7 @@ const deleteModal = document.getElementById("deleteModal");
 const bsDeleteModal = new bootstrap.Modal(deleteModal);
 
 async function deleteModalData(id) {
-    try {
         const response = await fetch(`http://localhost:8088/adminApi/user/${id}`);
-        if (!response.ok) {
-            throw new Error("Failed to fetch user data");
-        }
         const user = await response.json();
 
         id_delete.value = user.id;
@@ -36,28 +32,21 @@ async function deleteModalData(id) {
         });
 
         deleteUserButton.addEventListener("click", deleteUser);
-
-    } catch (error) {
-        console.error(error.message);
-    }
 }
 
 async function deleteUser() {
-    try {
-        const urlDel = `http://localhost:8088/adminApi/user/${id_delete.value}`;
-        const method = {
-            method: 'DELETE',
-            headers: {
-                "Content-Type": "application/json"
-            }
-        };
-        const response = await fetch(urlDel, method);
-        if (!response.ok) {
-            throw new Error("Failed to delete user");
+    const urlDel = `http://localhost:8088/adminApi/user/${id_delete.value}`;
+    const method = {
+        method: 'DELETE',
+        headers: {
+            "Content-Type": "application/json"
         }
-        closeDeleteButton.click();tableOfAllUsers();
-    } catch (error) {
-        console.error(error.message);
+    };
+    const response = await fetch(urlDel, method);
+    if (!response.ok) {
+        throw new Error("Failed to delete user");
     }
+    closeDeleteButton.click();tableOfAllUsers();
+
 }
 
