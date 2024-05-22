@@ -55,11 +55,7 @@ async function editModalData(id) {
                 }
             }
         });
-        formEdit.addEventListener("submit", submitHandler, modal.close());
-        /*formEdit.addEventListener("submit", submitHandler, modal.hide());
-        editUserButton.addEventListener("submit", modal.close());*/
-       /* editUserButton.click("submit", submitHandler());*/
-        //closeEditButton.click();
+        formEdit.addEventListener("submit", submitHandler, modal.hide());
     } catch (error) {
         console.error(error.message);
     }
@@ -84,24 +80,14 @@ async function submitHandler(event) {
         roles: selectedRoles
     };
 
-    try {
-        const response = await fetch(`http://localhost:8088/adminApi/user/${id_edit.value}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(editedUser)
-        });
+    const response = await fetch(`http://localhost:8088/adminApi/user/${id_edit.value}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(editedUser)
+    });
+    closeEditButton.click();
+    tableOfAllUsers();
 
-        if (!response.ok) {
-            throw new Error('Failed to update user');
-        }
-
-        tableOfAllUsers();
-
-
-    } catch (error) {
-        console.error(error.message);
-    }
 }
-

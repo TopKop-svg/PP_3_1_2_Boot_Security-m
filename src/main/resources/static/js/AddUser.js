@@ -60,7 +60,6 @@ async function addUser() {
         } else {
             const errors = await response.json();
             console.error("Failed to add user:", errors);
-            // displayAddErrors(errors);
         }
     } catch (error) {
         console.error("Error adding user:", error.message);
