@@ -9,7 +9,6 @@ import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,7 +20,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-
     }
 
     public User findByUsername(String username) {
@@ -29,8 +27,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User findById(int id) {
-        return userRepository.findUserById(id);
+        return userRepository.findUserByIdWithRoles(id);
     }
 
     @Transactional
@@ -39,19 +38,23 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    @Transactional(readOnly = true)
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userRepository.findAllUsersWithRoles();
     }
 
     @Transactional
     public void updateUserById(int id, User updateUser) {
+        User existingUser = userRepository.findUserByIdWithRoles(id);
         updateUser.setId(id);
         updateUser.setRoles(updateUser.getRoles());
-        if (passwordEncoder.encode(updateUser.getPassword()).hashCode() != userRepository.findUserById(id).getPassword().hashCode()) {
+
+        if (!passwordEncoder.matches(updateUser.getPassword(), existingUser.getPassword())) {
             updateUser.setPassword(passwordEncoder.encode(updateUser.getPassword()));
         } else {
-            updateUser.setPassword(userRepository.findUserById(id).getPassword());
+            updateUser.setPassword(existingUser.getPassword());
         }
+
         userRepository.save(updateUser);
     }
 
@@ -59,5 +62,4 @@ public class UserServiceImpl implements UserService {
     public void deleteUserById(int id) {
         userRepository.deleteUserById(id);
     }
-
 }
